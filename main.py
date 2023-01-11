@@ -29,135 +29,131 @@ grass12_img = pygame.image.load('grass12.png')
 plant_png = pygame.image.load('plant.png')
 
 
-class World():
-	def __init__(self, data):
-		self.tile_list = []
-
-		#load images
-		dirt_img = pygame.image.load('dirt.png')
-		grass_img = pygame.image.load('grass.png')
-
-		row_count = 0
-		for row in data:
-			col_count = 0
-			for tile in row:
-				if tile == 1:
-					img = pygame.transform.scale(dirt_img, (tile_size, tile_size))
-					img_rect = img.get_rect()
-					img_rect.x = col_count * tile_size
-					img_rect.y = row_count * tile_size
-					tile = (img, img_rect)
-					self.tile_list.append(tile)
+class World(): 
+  def __init__(self, data):
+    self.tile_list = []
+    
+    row_count = 0
+    for row in data:
+      col_count = 0
+      for tile in row:
+        if tile == 1:
+          img = pygame.transform.scale(dirt_img, (tile_size, tile_size))
+          img_rect = img.get_rect()
+          img_rect.x = col_count * tile_size
+          img_rect.y = row_count * tile_size
+          tile = (img, img_rect)
+          self.tile_list.append(tile)
           
-				elif tile == 2:
-					img = pygame.transform.scale(grass_img, (tile_size, tile_size))
-					img_rect = img.get_rect()
-					img_rect.x = col_count * tile_size
-					img_rect.y = row_count * tile_size
-					tile = (img, img_rect)
-					self.tile_list.append(tile)
+        elif tile == 2:
+          img = pygame.transform.scale(grass_img, (tile_size, tile_size))
+          img_rect = img.get_rect()
+          img_rect.x = col_count * tile_size
+          img_rect.y = row_count * tile_size
+          tile = (img, img_rect)
+          self.tile_list.append(tile)
           
-				elif tile == 3:
-					img = pygame.transform.scale(grass2_img, (tile_size, tile_size))
-					img_rect = img.get_rect()
-					img_rect.x = col_count * tile_size
-					img_rect.y = row_count * tile_size
-					tile = (img, img_rect)
-					self.tile_list.append(tile)
+        elif tile == 3:
+          img = pygame.transform.scale(grass2_img, (tile_size, tile_size))
+          img_rect = img.get_rect()
+          img_rect.x = col_count * tile_size
+          img_rect.y = row_count * tile_size
+          tile = (img, img_rect)
+          self.tile_list.append(tile)
           
-				elif tile == 4:
-					img = pygame.transform.scale(grass3_img, (tile_size, tile_size))
-					img_rect = img.get_rect()
-					img_rect.x = col_count * tile_size
-					img_rect.y = row_count * tile_size
-					tile = (img, img_rect)
-					self.tile_list.append(tile) 
+        elif tile == 4:
+          img = pygame.transform.scale(grass3_img, (tile_size, tile_size))
+          img_rect = img.get_rect()
+          img_rect.x = col_count * tile_size
+          img_rect.y = row_count * tile_size
+          tile = (img, img_rect)
+          self.tile_list.append(tile) 
           
-				elif tile == 5:
-					img = pygame.transform.scale(grass4_img, (tile_size, tile_size))
-					img_rect = img.get_rect()
-					img_rect.x = col_count * tile_size
-					img_rect.y = row_count * tile_size
-					tile = (img, img_rect)
-					self.tile_list.append(tile)
+        elif tile == 5:
+          img = pygame.transform.scale(grass4_img, (tile_size, tile_size))
+          img_rect = img.get_rect()
+          img_rect.x = col_count * tile_size
+          img_rect.y = row_count * tile_size
+          tile = (img, img_rect)
+          self.tile_list.append(tile)
           
-				elif tile == 6:
-					img = pygame.transform.scale(grass5_img, (tile_size, tile_size))
-					img_rect = img.get_rect()
-					img_rect.x = col_count * tile_size
-					img_rect.y = row_count * tile_size
-					tile = (img, img_rect)
-					self.tile_list.append(tile)
-
-				elif tile == 7:
-					img = pygame.transform.scale(grass6_img, (tile_size, tile_size))
-					img_rect = img.get_rect()
-					img_rect.x = col_count * tile_size
-					img_rect.y = row_count * tile_size
-					tile = (img, img_rect)
-					self.tile_list.append(tile) 
-
-				elif tile == 8:
-					img = pygame.transform.scale(grass7_img, (tile_size, tile_size))
-					img_rect = img.get_rect()
-					img_rect.x = col_count * tile_size
-					img_rect.y = row_count * tile_size
-					tile = (img, img_rect)
-					self.tile_list.append(tile) 
+        elif tile == 6:
+          img = pygame.transform.scale(grass5_img, (tile_size, tile_size))
+          img_rect = img.get_rect()
+          img_rect.x = col_count * tile_size
+          img_rect.y = row_count * tile_size
+          tile = (img, img_rect)
+          self.tile_list.append(tile)
+  
+        elif tile == 7:
+          img = pygame.transform.scale(grass6_img, (tile_size, tile_size))
+          img_rect = img.get_rect()
+          img_rect.x = col_count * tile_size
+          img_rect.y = row_count * tile_size
+          tile = (img, img_rect)
+          self.tile_list.append(tile) 
+  
+        elif tile == 8:
+          img = pygame.transform.scale(grass7_img, (tile_size, tile_size))
+          img_rect = img.get_rect()
+          img_rect.x = col_count * tile_size
+          img_rect.y = row_count * tile_size
+          tile = (img, img_rect)
+          self.tile_list.append(tile) 
           
-				elif tile == 9:
-					img = pygame.transform.scale(grass8_img, (tile_size, tile_size))
-					img_rect = img.get_rect()
-					img_rect.x = col_count * tile_size
-					img_rect.y = row_count * tile_size
-					tile = (img, img_rect)
-					self.tile_list.append(tile) 
+        elif tile == 9:
+          img = pygame.transform.scale(grass8_img, (tile_size, tile_size))
+          img_rect = img.get_rect()
+          img_rect.x = col_count * tile_size
+          img_rect.y = row_count * tile_size
+          tile = (img, img_rect)
+          self.tile_list.append(tile) 
           
-				elif tile == 10:
-					img = pygame.transform.scale(grass9_img, (tile_size, tile_size))
-					img_rect = img.get_rect()
-					img_rect.x = col_count * tile_size
-					img_rect.y = row_count * tile_size
-					tile = (img, img_rect)
-					self.tile_list.append(tile) 
-
-				elif tile == 11:
-					img = pygame.transform.scale(grass10_img, (tile_size, tile_size))
-					img_rect = img.get_rect()
-					img_rect.x = col_count * tile_size
-					img_rect.y = row_count * tile_size
-					tile = (img, img_rect)
-					self.tile_list.append(tile) 
+        elif tile == 10:
+          img = pygame.transform.scale(grass9_img, (tile_size, tile_size))
+          img_rect = img.get_rect()
+          img_rect.x = col_count * tile_size
+          img_rect.y = row_count * tile_size
+          tile = (img, img_rect)
+          self.tile_list.append(tile) 
+  
+        elif tile == 11:
+          img = pygame.transform.scale(grass10_img, (tile_size, tile_size))
+          img_rect = img.get_rect()
+          img_rect.x = col_count * tile_size
+          img_rect.y = row_count * tile_size
+          tile = (img, img_rect)
+          self.tile_list.append(tile) 
           
-				elif tile == 12:
-					img = pygame.transform.scale(grass11_img, (tile_size, tile_size))
-					img_rect = img.get_rect()
-					img_rect.x = col_count * tile_size
-					img_rect.y = row_count * tile_size
-					tile = (img, img_rect)
-					self.tile_list.append(tile) 
+        elif tile == 12:
+          img = pygame.transform.scale(grass11_img, (tile_size, tile_size))
+          img_rect = img.get_rect()
+          img_rect.x = col_count * tile_size
+          img_rect.y = row_count * tile_size
+          tile = (img, img_rect)
+          self.tile_list.append(tile) 
           
-				elif tile == 13:
-					img = pygame.transform.scale(grass12_img, (tile_size, tile_size))
-					img_rect = img.get_rect()
-					img_rect.x = col_count * tile_size
-					img_rect.y = row_count * tile_size
-					tile = (img, img_rect)
-					self.tile_list.append(tile)
-
-				elif tile == 14:
-					img = pygame.transform.scale(plant_png, (tile_size, tile_size))
-					img_rect = img.get_rect()
-					img_rect.x = col_count * tile_size
-					img_rect.y = row_count * tile_size
-					tile = (img, img_rect)
-					self.tile_list.append(tile)        
-				col_count += 1
-			row_count += 1
-
-	def draw(self):
-		for tile in self.tile_list:
-			screen.blit(tile[0], tile[1])
+        elif tile == 13:
+          img = pygame.transform.scale(grass12_img, (tile_size, tile_size))
+          img_rect = img.get_rect()
+          img_rect.x = col_count * tile_size
+          img_rect.y = row_count * tile_size
+          tile = (img, img_rect)
+          self.tile_list.append(tile)
+  
+        elif tile == 14:
+          img = pygame.transform.scale(plant_png, (tile_size, tile_size))
+          img_rect = img.get_rect()
+          img_rect.x = col_count * tile_size
+          img_rect.y = row_count * tile_size
+          tile = (img, img_rect)
+          self.tile_list.append(tile)        
+        col_count += 1
+      row_count += 1
+  
+  def draw(self):
+    for tile in self.tile_list:
+      screen.blit(tile[0], tile[1])
 
 
 level1_map = [

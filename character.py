@@ -4,19 +4,64 @@ import pygame
 
 stationary = pygame.image.load(os.path.join("standing.png"))
 # One way to do it - using the sprites that face left.
-left = [
-    pygame.image.load(os.path.join("L1.png")),
-    pygame.image.load(os.path.join("L2.png")),
-    pygame.image.load(os.path.join("L3.png")),
-    pygame.image.load(os.path.join("L4.png"))
-]
+left = [None]*10
+for steps in range(1,5):
+    left[steps-1] = pygame.image.load(os.path.join("L" + str(steps) + ".png"))
+    steps+=1
 
-right = [
-    pygame.image.load(os.path.join("R1.png")),
-    pygame.image.load(os.path.join("R2.png")),
-    pygame.image.load(os.path.join("R3.png")),
-    pygame.image.load(os.path.join("R4.png"))
-]
+right = [None]*10
+for steps in range(1,5):
+    right[steps-1] = pygame.image.load(os.path.join("R" + str(steps) + ".png"))
+    steps+=1
+
+class Player():
+  def __init__(self, x, y):
+    self.x = x
+    self.y = y
+    self.vel_x = 10
+    self.vel_y = 10
+    self.speed = 7
+    self.width = 10
+    self.height = 7
+    move_right = False
+    move_left = False
+    steps = 0
+    
+    if steps >= 36:
+        steps = 0
+    if move_left:
+        screen.blit(left[steps%4], (x, y))
+        steps += 1
+    elif move_right:
+        screen.blit(right[steps%4], (x, y))
+        steps += 1
+    else:
+        screen.blit(stationary, (x, y))
+
+  def Input():
+    jump = False
+    key = pygame.key.get_pressed()
+    if jump is False and key[pygame.K_SPACE]:
+        jump = True
+    if jump is True:
+        y -= vel_y * 2
+        vel_y -= 1
+        if vel_y < -10:
+            jump = False
+            vel_y = 10
+    if key[pygame.K_LEFT] and x > 0:
+        x -= speed
+        move_left = True
+        move_right = False
+    elif key[pygame.K_RIGHT] and x < 1000 - width:
+        x += speed
+        move_left = False
+        move_right = True
+    else:
+        move_left = False
+        move_right = False
+
+
 
 x = 50
 y = 300
