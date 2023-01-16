@@ -98,7 +98,7 @@ class Player():
   
     #add gravity
     self.vel_y += 1
-    if self.vel_y > 10:
+    if self.vel_y > 15:
       self.vel_y = 10
     dy += self.vel_y
   
@@ -117,9 +117,6 @@ class Player():
         elif self.vel_y >= 0:
           dy = tile[1].top - self.rect.bottom
           self.vel_y = 0
-  
-  
-  
   
     #update player coordinates
     self.rect.x += dx
