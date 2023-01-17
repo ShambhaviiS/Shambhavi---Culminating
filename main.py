@@ -1,18 +1,25 @@
 import pygame
+from pygame.locals import *
 
 pygame.init()
 
-screen_width = 980
-screen_height = 480
+clock = pygame.time.Clock()
+fps = 60
+
+screen_width = 1050
+screen_height = 525
+
 
 screen = pygame.display.set_mode((screen_width, screen_height))
 pygame.display.set_caption('Platformer')
 
 #define game variables
-tile_size = 40
+tile_size = 35
+
+
 #load images
 bg_img = pygame.image.load('background.png')
-bg = pygame.transform.scale(bg_img, (1000, 500))
+
 dirt_img = pygame.image.load('dirt.png')
 grass_img = pygame.image.load('grass.png')
 grass2_img = pygame.image.load('grass2.png')
@@ -26,7 +33,7 @@ grass9_img = pygame.image.load('grass9.png')
 grass10_img = pygame.image.load('grass10.png')
 grass11_img = pygame.image.load('grass11.png')
 grass12_img = pygame.image.load('grass12.png')
-plant_png = pygame.image.load('plant.png')
+
 
 class Player():
   def __init__(self, x, y):
@@ -40,7 +47,6 @@ class Player():
       img_left = pygame.transform.flip(img_right, True, False)
       self.images_right.append(img_right)
       self.images_left.append(img_left)
-    self.index = 0
     self.image = self.images_right[self.index]
     self.rect = self.image.get_rect()
     self.rect.x = x
@@ -50,10 +56,6 @@ class Player():
     self.vel_y = 0
     self.jumped = False
     self.direction = 0
-    self.dx = 0
-    self.dy = 0
-    self.move_right = False
-    self.move_left = False
 
   def update(self):
     dx = 0
@@ -68,11 +70,11 @@ class Player():
     if key[pygame.K_SPACE] == False:
       self.jumped = False
     if key[pygame.K_LEFT]:
-      dx -= 2
+      dx -= 5
       self.counter += 1
       self.direction = -1
     if key[pygame.K_RIGHT]:
-      dx += 2
+      dx += 5
       self.counter += 1
       self.direction = 1
     if key[pygame.K_LEFT] == False and key[pygame.K_RIGHT] == False:
@@ -98,7 +100,7 @@ class Player():
   
     #add gravity
     self.vel_y += 1
-    if self.vel_y > 15:
+    if self.vel_y > 10:
       self.vel_y = 10
     dy += self.vel_y
   
@@ -118,6 +120,9 @@ class Player():
           dy = tile[1].top - self.rect.bottom
           self.vel_y = 0
   
+  
+  
+  
     #update player coordinates
     self.rect.x += dx
     self.rect.y += dy
@@ -128,12 +133,15 @@ class Player():
   
     #draw player onto screen
     screen.blit(self.image, self.rect)
-    
-
-class World(): 
+  
+  
+  
+  
+class World():
   def __init__(self, data):
     self.tile_list = []
-    
+
+  
     row_count = 0
     for row in data:
       col_count = 0
@@ -241,51 +249,98 @@ class World():
           img_rect.y = row_count * tile_size
           tile = (img, img_rect)
           self.tile_list.append(tile)
-  
-        elif tile == 14:
-          img = pygame.transform.scale(plant_png, (tile_size, tile_size))
-          img_rect = img.get_rect()
-          img_rect.x = col_count * tile_size
-          img_rect.y = row_count * tile_size
-          tile = (img, img_rect)
-          self.tile_list.append(tile)        
+          
+        elif tile == 15:
+          blob = Enemy(col_count * tile_size, row_count * tile_size + 7)
+          blob_group.add(blob)
+        
+        if tile == 4:
+          coin = Coin(col_count * tile_size + (tile_size // 2), row_count * tile_size + (tile_size // 2))
+          coin_group.add(coin)
         col_count += 1
       row_count += 1
   
   def draw(self):
     for tile in self.tile_list:
       screen.blit(tile[0], tile[1])
+  
 
-level1_map = [
-[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-[0, 0, 0, 0, 0, 2, 2, 2, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0],
-[2, 2, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-[1, 1, 10, 2, 0, 0, 0, 0, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 1, 0],
-[1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9, 2, 6, 0, 1, 1, 0],
-[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-[0, 0, 0, 0, 0, 9, 2, 6, 0, 0, 0, 0, 9, 13, 0, 0, 0, 1, 1, 0],
-[0, 0, 9, 6, 0, 5, 1, 3, 0, 0, 0, 0, 5, 1, 0, 0, 1, 1, 1, 0],
-[0, 0, 5, 3, 0, 5, 1, 10, 6, 0, 9, 2, 13, 1, 6, 0, 1, 1, 1, 0],
-[2, 2, 13, 3, 0, 5, 1, 1, 3, 0, 5, 1, 1, 1, 3, 0, 1, 1, 1, 0],
-[1, 1, 1, 3, 0, 5, 1, 1, 3, 0, 5, 1, 1, 1, 3, 0, 1, 1, 1, 0]]
 
-world = World(level1_map)
+class Enemy(pygame.sprite.Sprite):
+	def __init__(self, x, y):
+		pygame.sprite.Sprite.__init__(self)
+		self.image = pygame.image.load('blob.png')
+		self.rect = self.image.get_rect()
+		self.rect.x = x
+		self.rect.y = y
+		self.move_direction = 1
+		self.move_counter = 0
+
+	def update(self):
+		self.rect.x += self.move_direction
+		self.move_counter += 1
+		if abs(self.move_counter) > 50:
+			self.move_direction *= -1
+			self.move_counter *= -1
+
+class Coin(pygame.sprite.Sprite):
+	def __init__(self, x, y):
+		pygame.sprite.Sprite.__init__(self)
+		img = pygame.image.load('coin.png')
+		self.image = pygame.transform.scale(img, (tile_size // 2, tile_size // 2))
+		self.rect = self.image.get_rect()
+		self.rect.center = (x, y)
+
+
+
+
+world_data = [
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+[0, 0, 11, 4, 4, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+[0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+[4, 4, 7, 0, 0, 0, 0, 0, 0, 0, 0, 15, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 9, 2, 2, 2, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+[0, 0, 0, 9, 6, 0, 0, 9, 2, 13, 0, 1, 1, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+[0, 0, 0, 5, 3, 0, 0, 8, 12, 1, 0, 0, 0, 10, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+[2, 2, 2, 13, 3, 0, 0, 0, 5, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+[1, 1, 1, 1, 3, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+[1, 1, 1, 1, 3, 0, 9, 2, 13, 10, 2, 2, 2, 2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
+
 player = Player(100, screen_height - 130)
+
+blob_group = pygame.sprite.Group()
+coin_group = pygame.sprite.Group()
+
+score_coin = Coin(tile_size // 2, tile_size // 2)
+coin_group.add(score_coin)
+
+
+world = World(world_data)
 
 run = True
 while run:
 
-	screen.blit(bg_img, (0, 0))
+  clock.tick(fps)
   
-	world.draw()
-
-	player.update()
-
-	for event in pygame.event.get():
-		if event.type == pygame.QUIT:
-			run = False
-
-	pygame.display.update()
+  screen.blit(bg_img, (0, 0))
+  
+  world.draw()
+  
+  blob_group.update()
+  blob_group.draw(screen)
+  coin_group.draw(screen)
+  
+  player.update()
+  
+  for event in pygame.event.get():
+    if event.type == pygame.QUIT:
+      run = False
+  
+  pygame.display.update()
 
 pygame.quit()
