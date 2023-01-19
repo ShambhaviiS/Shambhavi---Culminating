@@ -291,6 +291,10 @@ class Coin(pygame.sprite.Sprite):
 		self.rect = self.image.get_rect()
 		self.rect.center = (x, y)
 
+class Tree(pygame.sprite.Sprite):
+  def __init__(self, x, y):
+    
+
 
 
 
