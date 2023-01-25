@@ -1,3 +1,8 @@
+#Name: Shambhavi Sinha 
+#Date: January 25, 2022
+#Program Name:  Bun Bun Hop!
+#Purpose: Players will be a bunny and will have to collect all the carrots without dying to the enemy mushrooms or falling of the world. Highscore will be calculated by how many carrots are collected with each carrots being worth 5 points.
+
 import pygame
 import os
 
@@ -13,7 +18,7 @@ screen_height = 525
 
 #create the screen and set a caption
 screen = pygame.display.set_mode((screen_width, screen_height))
-pygame.display.set_caption('Platformer Culminating')
+pygame.display.set_caption('Bun Bun Hop!')
 
 #define game variables
 tile_size = 35
@@ -213,13 +218,18 @@ class Player():
     #if player collides with the mushroom, the turn into a ghost
     elif game_over == -1:
       self.image = self.ghost_image
-      if self.rect.y > 200:
+      if self.rect.y > 20:
         self.rect.y -= 5
     
      #draw player onto screen
     screen.blit(self.image, self.rect)
 
-    #returns gave over and score count to be used later in code
+    
+    if self.rect.bottom > screen_height:
+      self.rect.bottom = screen_height
+      game_over = -1
+
+    #returns gave over to be used later in code
     return game_over
 
 #creates the world using the world list
@@ -439,7 +449,7 @@ instructions_button = Button(260, 225, instructions_img, 1)
 back_button = Button(50, 375, back_img, 1)
 
 #font that cant be put onto the screen
-font = pygame.font.SysFont("arialblack", 50)
+font = pygame.font.SysFont("arialblack", 45)
 font2 = pygame.font.SysFont("arialblack", 18)
 
 #draws the text onto the screen using the given font and size
@@ -483,7 +493,7 @@ while run:
       
       #draw the text on
       draw_text("This is a very simple platformer-type game. Your objective", font, 'white', 50, 90)
-      draw_text("is to collect all the carrots without dying dying to the enemy", font, 'white', 50, 130)
+      draw_text("is to collect all the carrots without dying to the enemy", font, 'white', 50, 130)
       draw_text("mushrooms. Each carrot is worth 5 points. The score of the", font, 'white', 50, 170)
       draw_text("player who collected the most carrots will be displayed in your", font, 'white', 50, 210)
       draw_text("level through the highscore text. If your score beat theirs,", font, 'white', 50, 250)
